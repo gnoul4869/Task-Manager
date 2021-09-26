@@ -1,2 +1,2 @@
-# Task-Manager
- Task manager
+# Task Manager
+ A Node JS application
