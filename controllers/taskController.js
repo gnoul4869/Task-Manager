@@ -1,24 +1,69 @@
 const task = require('../models/taskModel');
 
-const getAllTask = (req, res) => {
-    res.send('<h1> Get All Tasks </h1>');
+const getAllTask = async (req, res) => {
+    try {
+        const result = await task.find({});
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };
 
-const getTask = (req, res) => {
-    res.json({ id: req.params.id });
+const getTask = async (req, res) => {
+    try {
+        const { id: taskId } = req.params;
+        const result = await task.findOne({ _id: taskId });
+        if (!result) {
+            return res
+                .status(404)
+                .json({ error: `Could not find task with id ${taskId}` });
+        }
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };
 
 const createTask = async (req, res) => {
-    const result = await task.create(req.body);
-    res.json(result);
+    try {
+        const result = await task.create(req.body);
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };
 
-const updateTask = (req, res) => {
-    res.send('<h1> Update Task </h1>');
+const deleteTask = async (req, res) => {
+    try {
+        const { id: taskId } = req.params;
+        const result = await task.findOneAndDelete({ _id: taskId });
+        if (!result) {
+            return res
+                .status(404)
+                .json({ error: `Could not find task with id ${taskId}` });
+        }
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };
 
-const deleteTask = (req, res) => {
-    res.send('<h1> Delete Task </h1>');
+const updateTask = async (req, res) => {
+    try {
+        const { id: taskId } = req.params;
+        const result = await task.findOneAndUpdate({ _id: taskId }, req.body, {
+            new: true,
+            runValidators: true,
+        });
+        if (!result) {
+            return res
+                .status(404)
+                .json({ error: `Could not find task with id ${taskId}` });
+        }
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };
 
 module.exports = {
