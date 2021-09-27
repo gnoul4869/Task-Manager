@@ -11,12 +11,12 @@ const getAllTask = async (req, res) => {
 
 const getTask = async (req, res) => {
     try {
-        const { id: taskId } = req.params;
-        const result = await task.findOne({ _id: taskId });
+        const { id: taskID } = req.params;
+        const result = await task.findOne({ _id: taskID });
         if (!result) {
             return res
                 .status(404)
-                .json({ error: `Could not find task with id ${taskId}` });
+                .json({ error: `Could not find task with id ${taskID}` });
         }
         res.status(200).json(result);
     } catch (error) {
@@ -35,12 +35,12 @@ const createTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
     try {
-        const { id: taskId } = req.params;
-        const result = await task.findOneAndDelete({ _id: taskId });
+        const { id: taskID } = req.params;
+        const result = await task.findOneAndDelete({ _id: taskID });
         if (!result) {
             return res
                 .status(404)
-                .json({ error: `Could not find task with id ${taskId}` });
+                .json({ error: `Could not find task with id ${taskID}` });
         }
         res.status(200).json(result);
     } catch (error) {
@@ -50,15 +50,15 @@ const deleteTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
     try {
-        const { id: taskId } = req.params;
-        const result = await task.findOneAndUpdate({ _id: taskId }, req.body, {
+        const { id: taskID } = req.params;
+        const result = await task.findOneAndUpdate({ _id: taskID }, req.body, {
             new: true,
             runValidators: true,
         });
         if (!result) {
             return res
                 .status(404)
-                .json({ error: `Could not find task with id ${taskId}` });
+                .json({ error: `Could not find task with id ${taskID}` });
         }
         res.status(200).json(result);
     } catch (error) {
