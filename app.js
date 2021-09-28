@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const taskRoute = require('./routes/taskRoute');
+const taskRoute = require('./routes/task.route');
 const connectDb = require('./db/connect');
 require('dotenv').config();
-const page404 = require('./middlewares/page404');
+const notFound = require('./middlewares/not-found');
+const errorHandler = require('./middlewares/error-handler');
 
 const port = 3000;
 
@@ -13,7 +14,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/tasks', taskRoute);
-app.use(page404);
+app.use(notFound);
+app.use(errorHandler);
 
 const start = async () => {
     try {
